@@ -9,6 +9,11 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
 
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        response.data = {"success": True, "data": response.data}
+        return response
+
 
 class ProfileView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
@@ -26,10 +31,10 @@ class ChangePasswordView(APIView):
         s = ChangePasswordSerializer(data=request.data)
         s.is_valid(raise_exception=True)
         if not request.user.check_password(s.validated_data["old_password"]):
-            return Response({"old_password": "Invalid password"}, status=400)
+            return Response({"success": False, "errors": {"old_password": ["Invalid password"]}}, status=400)
         request.user.set_password(s.validated_data["new_password"])
         request.user.save(update_fields=["password"])
-        return Response({"detail": "Password changed"})
+        return Response({"success": True, "message": "Password changed"})
 
 
 class LogoutView(APIView):
