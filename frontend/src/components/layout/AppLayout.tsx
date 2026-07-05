@@ -1,3 +1,46 @@
-import{NavLink,Outlet,useNavigate}from'react-router-dom';import{Bell,ChartPie,Plane,User,Users,LogOut}from'lucide-react';import{useAuth}from'../../contexts/AuthContext';
-const links=[['/trips','Trips',Plane],['/friends','Friends',Users],['/reports','Reports',ChartPie],['/notifications','Notifications',Bell],['/profile','Profile',User]] as const;
-export function AppLayout(){const{logout}=useAuth();const nav=useNavigate();return <div className="min-h-screen"><aside className="fixed bottom-0 z-10 flex w-full justify-around glass p-2 md:inset-y-0 md:w-64 md:flex-col md:justify-start md:gap-2 md:p-6"><h1 className="hidden text-2xl font-bold md:block">SplitSync Pro</h1>{links.map(([to,label,Icon])=><NavLink className={({isActive})=>`btn justify-start gap-2 ${isActive?'bg-brand text-white':'hover:bg-slate-200 dark:hover:bg-slate-800'}`} to={to} key={to}><Icon size={18}/><span className="hidden md:inline">{label}</span></NavLink>)}<button className="btn justify-start gap-2" onClick={()=>{logout();nav('/login')}}><LogOut size={18}/><span className="hidden md:inline">Logout</span></button></aside><main className="p-4 pb-24 md:ml-64 md:p-8"><Outlet/></main></div>}
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Bell, ChartPie, Plane, User, Users, LogOut } from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
+const links = [
+  ["/trips", "Trips", Plane],
+  ["/friends", "Friends", Users],
+  ["/reports", "Reports", ChartPie],
+  ["/notifications", "Notifications", Bell],
+  ["/profile", "Profile", User],
+] as const;
+export function AppLayout() {
+  const { logout } = useAuth();
+  const nav = useNavigate();
+  return (
+    <div className="min-h-screen">
+      <aside className="fixed bottom-0 z-10 flex w-full justify-around glass p-2 md:inset-y-0 md:w-64 md:flex-col md:justify-start md:gap-2 md:p-6">
+        <h1 className="hidden text-2xl font-bold md:block">SplitSync Pro</h1>
+        {links.map(([to, label, Icon]) => (
+          <NavLink
+            className={({ isActive }) =>
+              `btn justify-start gap-2 ${isActive ? "bg-brand text-white" : "hover:bg-slate-200 dark:hover:bg-slate-800"}`
+            }
+            to={to}
+            key={to}
+          >
+            <Icon size={18} />
+            <span className="hidden md:inline">{label}</span>
+          </NavLink>
+        ))}
+        <button
+          className="btn justify-start gap-2"
+          onClick={() => {
+            logout();
+            nav("/login");
+          }}
+        >
+          <LogOut size={18} />
+          <span className="hidden md:inline">Logout</span>
+        </button>
+      </aside>
+      <main className="p-4 pb-24 md:ml-64 md:p-8">
+        <Outlet />
+      </main>
+    </div>
+  );
+}

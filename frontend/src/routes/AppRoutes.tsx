@@ -1,3 +1,32 @@
-import{Navigate,Route,Routes}from'react-router-dom';import{AppLayout}from'../components/layout/AppLayout';import{useAuth}from'../contexts/AuthContext';import{LandingPage}from'../pages/LandingPage';import{LoginPage,RegisterPage}from'../pages/AuthPages';import{FriendsPage,NotificationsPage,ProfilePage,ReportsPage,TripsPage}from'../pages/AppPages';
-function Private(){const{user}=useAuth();return user?<AppLayout/>:<Navigate to="/login"/>}
-export function AppRoutes(){return <Routes><Route path="/" element={<LandingPage/>}/><Route path="/login" element={<LoginPage/>}/><Route path="/register" element={<RegisterPage/>}/><Route element={<Private/>}><Route path="/trips" element={<TripsPage/>}/><Route path="/friends" element={<FriendsPage/>}/><Route path="/reports" element={<ReportsPage/>}/><Route path="/notifications" element={<NotificationsPage/>}/><Route path="/profile" element={<ProfilePage/>}/></Route></Routes>}
+import { Navigate, Route, Routes } from "react-router-dom";
+import { AppLayout } from "../components/layout/AppLayout";
+import { useAuth } from "../contexts/AuthContext";
+import { LandingPage } from "../pages/LandingPage";
+import { LoginPage, RegisterPage } from "../pages/AuthPages";
+import {
+  FriendsPage,
+  NotificationsPage,
+  ProfilePage,
+  ReportsPage,
+  TripsPage,
+} from "../pages/AppPages";
+function Private() {
+  const { user } = useAuth();
+  return user ? <AppLayout /> : <Navigate to="/login" />;
+}
+export function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route element={<Private />}>
+        <Route path="/trips" element={<TripsPage />} />
+        <Route path="/friends" element={<FriendsPage />} />
+        <Route path="/reports" element={<ReportsPage />} />
+        <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Route>
+    </Routes>
+  );
+}

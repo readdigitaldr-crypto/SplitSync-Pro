@@ -1,4 +1,96 @@
-import{useForm}from'react-hook-form';import{useNavigate,Link}from'react-router-dom';import toast from'react-hot-toast';import{api}from'../api/client';import{useAuth}from'../contexts/AuthContext';import{Card}from'../components/ui/Card';
-export function LoginPage(){const{register,handleSubmit}=useForm<{username:string;password:string}>();const{login}=useAuth();const nav=useNavigate();return <AuthShell title="Login"><form onSubmit={handleSubmit(async d=>{await login(d.username,d.password);toast.success('Welcome back');nav('/trips')})} className="space-y-3"><input className="input" placeholder="Username" {...register('username')}/><input className="input" type="password" placeholder="Password" {...register('password')}/><button className="btn-primary w-full">Login</button><Link to="/register">Need an account?</Link></form></AuthShell>}
-export function RegisterPage(){const{register,handleSubmit}=useForm<{username:string;email:string;full_name:string;password:string}>();const nav=useNavigate();return <AuthShell title="Register"><form onSubmit={handleSubmit(async d=>{await api.post('/auth/register/',d);toast.success('Account created');nav('/login')})} className="space-y-3"><input className="input" placeholder="Username" {...register('username')}/><input className="input" placeholder="Full name" {...register('full_name')}/><input className="input" placeholder="Email" {...register('email')}/><input className="input" type="password" placeholder="Password" {...register('password')}/><button className="btn-primary w-full">Create account</button></form></AuthShell>}
-function AuthShell({title,children}:{title:string;children:React.ReactNode}){return <div className="grid min-h-screen place-items-center p-6"><Card className="w-full max-w-md"><h1 className="mb-6 text-3xl font-bold">{title}</h1>{children}</Card></div>}
+import { useForm } from "react-hook-form";
+import { useNavigate, Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { api } from "../api/client";
+import { useAuth } from "../contexts/AuthContext";
+import { Card } from "../components/ui/Card";
+export function LoginPage() {
+  const { register, handleSubmit } = useForm<{
+    username: string;
+    password: string;
+  }>();
+  const { login } = useAuth();
+  const nav = useNavigate();
+  return (
+    <AuthShell title="Login">
+      <form
+        onSubmit={handleSubmit(async (d) => {
+          await login(d.username, d.password);
+          toast.success("Welcome back");
+          nav("/trips");
+        })}
+        className="space-y-3"
+      >
+        <input
+          className="input"
+          placeholder="Username"
+          {...register("username")}
+        />
+        <input
+          className="input"
+          type="password"
+          placeholder="Password"
+          {...register("password")}
+        />
+        <button className="btn-primary w-full">Login</button>
+        <Link to="/register">Need an account?</Link>
+      </form>
+    </AuthShell>
+  );
+}
+export function RegisterPage() {
+  const { register, handleSubmit } = useForm<{
+    username: string;
+    email: string;
+    full_name: string;
+    password: string;
+  }>();
+  const nav = useNavigate();
+  return (
+    <AuthShell title="Register">
+      <form
+        onSubmit={handleSubmit(async (d) => {
+          await api.post("/auth/register/", d);
+          toast.success("Account created");
+          nav("/login");
+        })}
+        className="space-y-3"
+      >
+        <input
+          className="input"
+          placeholder="Username"
+          {...register("username")}
+        />
+        <input
+          className="input"
+          placeholder="Full name"
+          {...register("full_name")}
+        />
+        <input className="input" placeholder="Email" {...register("email")} />
+        <input
+          className="input"
+          type="password"
+          placeholder="Password"
+          {...register("password")}
+        />
+        <button className="btn-primary w-full">Create account</button>
+      </form>
+    </AuthShell>
+  );
+}
+function AuthShell({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid min-h-screen place-items-center p-6">
+      <Card className="w-full max-w-md">
+        <h1 className="mb-6 text-3xl font-bold">{title}</h1>
+        {children}
+      </Card>
+    </div>
+  );
+}

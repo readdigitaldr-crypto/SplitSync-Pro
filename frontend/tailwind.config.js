@@ -1,1 +1,6 @@
-export default {darkMode:'class',content:['./index.html','./src/**/*.{ts,tsx}'],theme:{extend:{colors:{brand:'#4f46e5'}}},plugins:[]}
+export default {
+  darkMode: "class",
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
+  theme: { extend: { colors: { brand: "#4f46e5" } } },
+  plugins: [],
+};
