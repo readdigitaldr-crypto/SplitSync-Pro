@@ -3,7 +3,7 @@ import { api } from "../api/client";
 import type { User } from "../types";
 type Auth = {
   user: User | null;
-  login: (u: string, p: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   refresh: () => Promise<void>;
 };
@@ -19,8 +19,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     refresh().catch(() => logout());
   }, []);
-  const login = async (username: string, password: string) => {
-    const { data } = await api.post("/auth/login/", { username, password });
+  const login = async (email: string, password: string) => {
+    const { data } = await api.post("/auth/login/", { email, password });
     localStorage.setItem("access", data.access);
     localStorage.setItem("refresh", data.refresh);
     await refresh();
